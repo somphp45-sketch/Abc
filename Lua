@@ -1,0 +1,43 @@
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+
+-- Cria a Tela
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "RagdollMenu"
+ScreenGui.Parent = PlayerGui
+
+-- Frame compacto
+local MainFrame = Instance.new("Frame")
+MainFrame.Size = UDim2.new(0, 180, 0, 160)
+MainFrame.Position = UDim2.new(0.1, 0, 0.1, 0)
+MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+MainFrame.BorderSizePixel = 0
+MainFrame.Active = true
+MainFrame.Draggable = true
+MainFrame.Parent = ScreenGui
+Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 10)
+
+local RagdollEvent = ReplicatedStorage.Library.Modules.Ragdoll.Ragdoll
+
+local function createButton(text, posY, color, callback)
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(0, 160, 0, 40)
+    btn.Position = UDim2.new(0, 10, 0, posY)
+    btn.BackgroundColor3 = color
+    btn.TextColor3 = Color3.new(1, 1, 1)
+    btn.Font = Enum.Font.SourceSansBold
+    btn.Text = text
+    btn.Parent = MainFrame
+    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 6)
+    btn.MouseButton1Click:Connect(callback)
+end
+
+-- Botões com os nomes em inglês
+createButton("Back", 10, Color3.fromRGB(180, 50, 50), function()
+    pcall(function() firesignal(RagdollEvent.OnClientEvent, "Make", 2.5, Vector3.new(-7073.3930664062, 854.7236328125, 836.61865234375)) end)
+end)
+
+
+createButton("Front", 60, Color3.fromRGB(200, 100, 40), function()
